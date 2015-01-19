@@ -1,0 +1,63 @@
+// Euler's Phi function
+// Kevin Valk, version 1.0.0
+
+// Input
+ClrList L₁
+0→Z
+Disp "Euler's Φ(A)"
+Prompt A
+A→D
+
+// Label A
+Lbl A
+0→C
+int(1+√(A))→B
+2→Y
+
+// Loop
+For(X,Y,B,1)
+  (X=2)+2→Y
+  If A/X=int(A/X)
+  Then
+    X→C
+    Goto B
+  End
+  If C=1
+    Goto C
+End
+If C=0
+  Goto C
+
+// Label B
+Lbl B
+A/C→A
+Z+1→Z
+C→L₁(Z)
+Goto A
+
+// Label C
+Lbl C
+Z+1→Z
+A→L₁(Z)
+L₁
+
+// Printing list
+L₁(1)→N
+0→E
+For(Z,1,dim(L₁),1)
+  If N=L₁(Z)
+  Then
+    E+1→E
+  Else
+    // Print factor^exponent
+    D*(1-(1/N))→D
+    
+    // Reset
+    L₁(Z)→N
+    1→E
+  End
+End
+
+// Print last factor^exponent
+D*(1-(1/N))→D
+Disp D

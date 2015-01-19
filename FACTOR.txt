@@ -1,0 +1,108 @@
+// Prime Factorization
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+// Input
+ClrList L₁
+0→Z
+Disp "factorize(A)"
+Prompt A
+
+// Label A
+Lbl A
+0→C
+int(1+√(A))→B
+2→Y
+
+// Loop
+For(X,Y,B,1)
+  (X=2)+2→Y
+  If A/X=int(A/X)
+  Then
+    X→C
+    Goto B
+  End
+  If C=1
+    Goto C
+End
+If C=0
+  Goto C
+
+// Label B
+Lbl B
+A/C→A
+Z+1→Z
+C→L₁(Z)
+Goto A
+
+// Label C
+Lbl C
+Z+1→Z
+A→L₁(Z)
+L₁
+
+// Printing list
+0→I
+0→J
+L₁(1)→N
+0→E
+For(Z,1,dim(L₁),1)
+  If N=L₁(Z)
+  Then
+    E+1→E
+  Else
+    // Print factor^exponent
+    Text(J+3,I,N)
+    
+    // Correct padding to the right
+    If N<10
+    Then
+      I+4→I
+    Else
+      If N<100
+      Then
+        I+8→I
+      Else
+        If N<1000
+          I+12→I
+      End
+    End
+    
+    If E≠1
+    Then
+      Text(J+0,I,E)
+      
+      // Correct padding
+      If E<10
+      Then
+        I+4→I
+      Else
+        If E<100
+          I+8→I
+      End
+    End
+    
+    // Print times dot
+    Pxl-On(J+6,I)
+    I+2→I
+    
+    // Check overflow
+    If I>80
+    Then
+      J+6→J
+      0→I
+    End
+    
+    // Reset
+    L₁(Z)→N
+    1→E
+  End
+End
+
+// Print last factor^exponent
+Text(J+3,I,N)
+I+4→I
+If E≠1
+  Text(J+0,I,E)

@@ -1,0 +1,40 @@
+// Extended Euclidean Algorithm
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+// Get input
+Disp "EGCD(F,G)"
+Disp "d = u*F + v*G"
+Prompt F
+Prompt G
+{F,1,0}→ʟA
+{G,0,1}→ʟB
+
+// Main loop
+0→L
+While ʟB(1)≠0
+  (ʟA-round(ʟA(1)/ʟB(1),0)*ʟB)→ʟC
+  ʟB→ʟA
+  ʟC→ʟB
+  Text(L,0,ʟA(1),",",ʟA(2),",",ʟA(3),"|",ʟB(1),",",ʟB(2),",",ʟB(3))
+  L+6→L
+End
+
+// Negative our positive formatting
+If ʟA(3)>0
+Then
+  "+"→Str1
+Else
+  ""→Str1
+End
+
+// Output
+Text(56,0,ʟA(1),"=",ʟA(2),"*",F,Str1,ʟA(3),"*",G)
+If (ʟA(2)*F)+(ʟA(3)*G)=ʟA(1)
+Then
+  Text(56,91,"√")
+Else
+  Text(56,91,"×")
+End
