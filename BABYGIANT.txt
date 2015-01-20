@@ -1,0 +1,175 @@
+// Modular Multiplicative Inverse
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+// Input
+Input "Gener G=",G
+Input "G ord Q=",Q
+Input "Eleme H=",H
+
+// Modulo
+Q+1→N
+
+// Find limit M
+√(Q)→T
+fPart(T)→T
+If T>0
+  1→T
+If T<0
+  (-1)→T
+iPart(√(Q))+T→M
+
+// Find maximum number size L
+If N<10
+Then
+  1→L
+Else
+  If N<100
+  Then
+    2→L
+  Else
+    If N<1000
+    Then
+      3→L
+    Else
+      If N<10000
+      Then
+        4→L
+      Else
+        5→L
+      End
+    End
+  End
+End
+
+0→dim(L₅)
+
+// Do baby steps
+0→R
+0→C
+1→T
+For(J,0,M,1)
+  // Draw number
+  Text(R,C,T)
+  T→L₅(1+dim(L₅))
+  
+  // Figure out what our next position is
+  (L*4)+C→C
+  If C+L*4+1>94
+  Then
+    0→C
+    R+6→R
+  End
+  
+  // When screen is full wait for continue and begin anew
+  If R+6>62
+  Then
+    Pause 
+    0→R
+    ClrDraw
+  End
+  
+  // Update our g^j
+  If T=1
+  Then
+    G→T
+  Else
+    remainder(T*G,N)→T
+  End
+End
+
+// Wait for continue and start giant steps
+Text(56,91,"►")
+Pause 
+ClrDraw
+
+// Calculate step size (inverse g^(-1)) A^-1( writen to A,B,E,R,T,U,X)
+666→F
+G→A
+prgmINVERSE
+0→F
+
+// Check for error, continue, but show it!
+If E=1
+  Pause "Not inv g^-1"
+
+// Exponentiate step size (g^(-1))^m
+666→F
+M→A
+T→X
+prgmMOD
+0→F
+
+// Z contain g^(-m)
+T→Z
+H→Y
+
+// Do giant steps
+0→R
+0→C
+For(I,0,M,1)
+  // Draw number
+  Text(R,C,Y)
+  
+  // Figure out what our next position is
+  (L*4)+C→C
+  If C+L*4+1>94
+  Then
+    0→C
+    R+6→R
+  End
+  
+  // When screen is full wait for continue and begin anew
+  If R+6>62
+  Then
+    Pause 
+    0→R
+    ClrDraw
+  End
+  
+  // Check if we got a HIT
+  For(J,1,dim(L₅),1)
+    If Y=L₅(J)
+    Then
+      // Found a hit so print out INFO
+      // Check if we have two lines, else PAUSE it
+      If R+18>62
+      Then
+        Pause 
+        0→R
+        ClrDraw
+      End
+     
+      // Fix offset (lists in TI start at 1, while in algorithm start at zero)
+      J-1→J
+      I*M+J→X
+     
+      // Output solution
+      Text(R,0,"i*m+j = x")
+      Text(R,94-11*4,"g^x = h mod n")
+      Text(R+6,0,I,"*",M,"+",J,"=",X)
+      Text(R+12,0,G,"^",X," mod ",N,"=",H)
+      
+      // Check solution for correctness X^A MOD N
+      666→F
+      X→A
+      G→X
+      prgmMOD
+      0→F
+      
+      If T=H
+      Then
+        Text(56,91,"√")
+      Else
+        Text(56,91,"×")
+      End
+      
+      Return
+    End
+  End
+  
+  // Update our Y
+  remainder(Y*Z,N)→Y
+End
