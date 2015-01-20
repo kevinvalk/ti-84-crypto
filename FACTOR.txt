@@ -1,15 +1,20 @@
 // Prime Factorization
 // Kevin Valk, version 1.0.0
-// Setup Graph screen
-AxesOff
-ClrDraw
+// Solution to factorization of A given in L₁
+// Writes to L₁,A,B,C,Y,Z
+If F≠666
+Then
+  AxesOff
+  ClrDraw
 
-// Input
+  // Input
+  Disp "factorize(A)"
+  Prompt A
+End
+
 ClrList L₁
 0→Z
-Disp "factorize(A)"
-Prompt A
-
+  
 // Label A
 Lbl A
 0→C
@@ -41,68 +46,70 @@ Goto A
 Lbl C
 Z+1→Z
 A→L₁(Z)
-L₁
 
-// Printing list
-0→I
-0→J
-L₁(1)→N
-0→E
-For(Z,1,dim(L₁),1)
-  If N=L₁(Z)
-  Then
-    E+1→E
-  Else
-    // Print factor^exponent
-    Text(J+3,I,N)
-    
-    // Correct padding to the right
-    If N<10
+If F≠666
+Then
+  // Printing list
+  0→I
+  0→J
+  L₁(1)→N
+  0→E
+  For(Z,1,dim(L₁),1)
+    If N=L₁(Z)
     Then
-      I+4→I
+      E+1→E
     Else
-      If N<100
-      Then
-        I+8→I
-      Else
-        If N<1000
-          I+12→I
-      End
-    End
-    
-    If E≠1
-    Then
-      Text(J+0,I,E)
+      // Print factor^exponent
+      Text(J+3,I,N)
       
-      // Correct padding
-      If E<10
+      // Correct padding to the right
+      If N<10
       Then
         I+4→I
       Else
-        If E<100
+        If N<100
+        Then
           I+8→I
+        Else
+          If N<1000
+            I+12→I
+        End
       End
+      
+      If E≠1
+      Then
+        Text(J+0,I,E)
+        
+        // Correct padding
+        If E<10
+        Then
+          I+4→I
+        Else
+          If E<100
+            I+8→I
+        End
+      End
+      
+      // Print times dot
+      Pxl-On(J+6,I)
+      I+2→I
+      
+      // Check overflow
+      If I>80
+      Then
+        J+6→J
+        0→I
+      End
+      
+      // Reset
+      L₁(Z)→N
+      1→E
     End
-    
-    // Print times dot
-    Pxl-On(J+6,I)
-    I+2→I
-    
-    // Check overflow
-    If I>80
-    Then
-      J+6→J
-      0→I
-    End
-    
-    // Reset
-    L₁(Z)→N
-    1→E
   End
-End
 
-// Print last factor^exponent
-Text(J+3,I,N)
-I+4→I
-If E≠1
-  Text(J+0,I,E)
+  // Print last factor^exponent
+  Text(J+3,I,N)
+  I+4→I
+  If E≠1
+    Text(J+0,I,E)
+End
