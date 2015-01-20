@@ -1,14 +1,19 @@
 // Modulo
 // Kevin Valk, version 1.0.0
-// Setup Graph screen
-AxesOff
-ClrDraw
+// Solution to `X^A MOD N` given in T
+// Writes to B,I,T
+If F≠666
+Then
+  // Setup Graph screen
+  AxesOff
+  ClrDraw
 
-// Get input
-Disp "X^A MOD N"
-Input "X=",X
-Input "A=",A
-Input "N=",N
+  // Get input
+  Disp "X^A MOD N"
+  Input "X=",X
+  Input "A=",A
+  Input "N=",N
+End
 A→B
 
 // Main loop
@@ -20,6 +25,9 @@ While A≠0
   A-1→A
 End
 
-// Output
-Text(0,0,X,"^",B," mod ",N,"=")
-Text(6,0,T)
+If F≠666
+Then
+  // Output
+  Text(0,0,X,"^",B," mod ",N,"=")
+  Text(6,0,T)
+End

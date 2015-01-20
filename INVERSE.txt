@@ -1,14 +1,19 @@
 // Modular Multiplicative Inverse
 // Kevin Valk, version 1.0.0
-// Setup Graph screen
-AxesOff
-ClrDraw
+// Solution to `A^-1 MOD N` given in T
+// Writes to A,B,E,R,T,U,X
+// E defines error (1 error, 0 else)
+If F≠666
+Then
+  AxesOff
+  ClrDraw
 
-// Get input
-Disp "Ax = 1 mod N"
-Disp "x = A^-1 mod N"
-Prompt A
-Prompt N
+  // Get input
+  Disp "Ax = 1 mod N"
+  Disp "x = A^-1 mod N"
+  Prompt A
+  Prompt N
+End
 
 // Main loop
 A→B
@@ -26,20 +31,29 @@ While A≠0
 End
 
 // Check if error
+0→E
 If R>1
 Then
-  Disp "A is not invertible"
-  Stop
+  If F≠666
+  Then
+    Disp "A is not invertible"
+    Stop
+  Else
+    1→E
+  End
 End
 
 // Switch sign
 If T<0
   T+N→T
 
-// Output
-Text(0,0,"x = A^-1 mod N          ")
-Text(6,0,T,"=",B,"^-1 mod ",N,"   ")
-Text(18,0,"A*x = 1 mod N          ")
-Text(24,0,B,"*",T,"= 1 mod ",N,"  ")
-Text(50,0,B,"^-1=",T)
-Text(56,0,"x=",T)
+If F≠666
+Then
+  // Output
+  Text(0,0,"x = A^-1 mod N          ")
+  Text(6,0,T,"=",B,"^-1 mod ",N,"   ")
+  Text(18,0,"A*x = 1 mod N          ")
+  Text(24,0,B,"*",T,"= 1 mod ",N,"  ")
+  Text(50,0,B,"^-1=",T)
+  Text(56,0,"x=",T)
+End
