@@ -1,4 +1,4 @@
-// Modular Multiplicative Inverse
+// Baby-step Giant-step algorithm for solving DLP
 // Kevin Valk, version 1.0.0
 // Setup Graph screen
 AxesOff
@@ -48,7 +48,7 @@ End
 0→dim(L₅)
 
 // Do baby steps
-Text(0,0,"Baby steps (col left to right)")
+Text(0,0,"Baby steps, 0 to ",M,"    (LR)")
 6→R
 0→C
 1→T
@@ -82,7 +82,7 @@ For(J,0,M,1)
   End
 End
 
-// Wait for continue and start giant steps
+// Wait for continue and start sub info
 Text(56,91,"►")
 Pause 
 ClrDraw
@@ -97,19 +97,31 @@ prgmINVERSE
 If E=1
   Pause "Not inv g^-1"
 
-// Exponentiate step size (g^(-1))^m
+// Exponentiate step size (g^(-1))^m (uses B,T,A, answer in T)
 666→F
 M→A
 T→X
 prgmMOD
 0→F
 
+// Print info
+Text(0,0,"Mod inverse for g^(-m)")
+Text(6,0,"g^-1 mod N = x:")
+Text(12,0,G,"^-1 mod ",N,"=",X)
+Text(24,0,"x^-m mod N:")
+Text(30,0,X,"^",M," mod ",N,"=",T)
+
+// Wait for continue and start giant steps
+Text(56,91,"►")
+Pause 
+ClrDraw
+
 // Z contain g^(-m)
 T→Z
 H→Y
 
 // Do giant steps
-Text(0,0,"Giant steps (col  left to right)")
+Text(0,0,"Giant steps, 0 to ",M,"    (LR)")
 6→R
 0→C
 For(I,0,M,1)
