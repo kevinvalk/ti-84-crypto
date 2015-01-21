@@ -1,7 +1,7 @@
 // Modular Multiplicative Inverse
 // Kevin Valk, version 1.0.0
 // Solution to `A^-1 MOD N` given in T
-// Writes to A,B,E,R,T,U,X
+// Writes to A,B,E,R,T,U,X,Q
 // E defines error (1 error, 0 else)
 If F≠666
 Then
