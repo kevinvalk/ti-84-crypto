@@ -1,0 +1,251 @@
+// Pollard's rho algorithm for logarithms
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+// Input
+Disp "G^? = H mod (Q+1)"
+Input "Gener G=",G
+Input "G ord Q=",Q
+Input "Eleme H=",H
+Input "Use alt(1)=",F
+If F=1
+Then
+  Input "x=",X
+  Input "a=",A
+  Input "b=",B
+Else
+  1→X
+  0→A
+  0→B
+End
+
+Q+1→N
+
+// Show how we are going to print
+Text(0,0,"[i|]x|a|b|X|A|B")
+Text(6,0,"We ommit the index")
+Text(12,0,"We do that until x=X")
+Pause 
+ClrDraw
+
+// Set of x,a,b in L₁
+{X,A,B}→L₁
+// Set of X,A,B in L₂
+{X,A,B}→L₂
+
+// Begin
+(0-1)→T
+0→R
+For(I,1,N,1)
+  // New XAB inlined in loop
+  For(J,1,3,1)
+    // Figure out if we doing x,a,b (L1) or X,A,B (L2) and GET
+    If J=1
+    Then
+      L₁(1)→X
+      L₁(2)→A
+      L₁(3)→B
+    Else
+      L₂(1)→X
+      L₂(2)→A
+      L₂(3)→B
+    End
+    
+    // Set new values
+    remainder(X,3)→S
+    If F=1
+    Then
+      If S=0
+      Then
+        remainder(X*G,N)→X
+        remainder(A+1,Q)→A
+      End
+      If S=1
+      Then
+        remainder(X*H,N)→X
+        remainder(B+1,Q)→B
+      End
+      If S=2
+      Then
+        remainder(X*X,N)→X
+        remainder(A*2,Q)→A
+        remainder(B*2,Q)→B
+      End
+    Else
+      If S=0
+      Then
+        remainder(X*X,N)→X
+        remainder(A*2,Q)→A
+        remainder(B*2,Q)→B
+      End
+      If S=1
+      Then
+        remainder(X*G,N)→X
+        remainder(A+1,Q)→A
+      End
+      If S=2
+      Then
+        remainder(X*H,N)→X
+        remainder(B+1,Q)→B
+      End
+    End
+    
+    // Save the new values in the list
+    If J=1
+    Then
+      X→L₁(1)
+      A→L₁(2)
+      B→L₁(3)
+    Else
+      X→L₂(1)
+      A→L₂(2)
+      B→L₂(3)
+    End
+  End
+  
+  // Print info
+  Text(R,0,L₁(1),"|",L₁(2),"|",L₁(3),"|",L₂(1),"|",L₂(2),"|",L₂(3))
+  R+6→R
+  
+  // When screen is full wait for continue and begin anew
+  If R+6>62
+  Then
+    Pause 
+    0→R
+    ClrDraw
+  End
+  
+  // Check for end and break if so
+  If L₁(1)=L₂(1)
+  Then
+    // Stop loop by setting the index to the end
+    N+1→I
+  End
+End
+
+// Wait for continue and start solving
+Text(56,91,"►")
+Pause 
+ClrDraw
+
+// Solve the equation h = g^a mod N
+0→L
+Text(L,0,G,"^(",L₁(2),"-",L₂(2),")=",H,"^(",L₂(3),"-",L₁(3),")")
+L+6→L
+// g ^(a-A)
+L₁(2)-L₂(2)→A
+If A<0
+  A+Q→A
+// h ^(B-b)
+L₂(3)-L₁(3)→B
+If B<0
+  B+Q→B
+gcd(B,Q)→S
+
+Text(L,0,G,"^",A,"=",H,"^",B)
+L+6→L
+Text(L,0,G,"^",A,"=",G,"^(",B,"*a)")
+L+6→L
+Text(L,0,B,"*a=",A," mod ",Q)
+L+6→L
+If S≠1
+Then
+  A/S→A
+  B/S→B
+  Q/S→Q
+  Text(L,0,"Gcd is ",S," so divide")
+  L+6→L
+  Text(L,0,B,"*a=",A," mod ",Q)
+  L+6→L
+End
+
+// Save state
+A→I
+B→P
+Q→K
+
+// Inverse of B*a=A mod n, thus x = B^-1 mod Q (x->T)( writen to A,B,E,R,T,U,X,Q)
+666→F
+Q→N
+B→A
+prgmINVERSE
+0→F
+
+// Restore
+K→Q
+I→A
+P→B
+(Q*S)+1→N
+
+// Get inverse
+Text(L,0,T,"=",B,"^-1 mod ",Q)
+L+6→L
+
+// Show A
+remainder(A*T,Q)→V
+Text(L,0,A,"*",T," mod ",Q,"=",V," (a)")
+L+6→L
+
+If S=1
+Then
+  // `X^A MOD N` given in T (uses B,I,T)
+  666→F
+  G→X
+  V→A
+  prgmMOD
+  0→F
+
+  // Show solution
+  Text(50,0,"Solution:")
+  Text(56,0,G,"^",V," mod ",N,"=",T)
+  
+  // Check if correct
+  If T=H
+  Then
+    Text(56,91,"√")
+  Else
+    Text(56,91,"×")
+  End
+Else
+  Text(56,91,"►")
+  Text(56,0,S," possible candidates")
+  Pause 
+  ClrDraw
+  
+  // Say how we are going to do this
+  Text(0,0,"Try for g^(a+i*n) mod N")
+  6→L
+  
+  // Print out different values  
+  For(J,0,S-1,1)
+    V+Q*J→A
+    A→E
+    
+    // `X^A MOD N` given in T (uses B,I,T)
+    666→F
+    G→X
+    prgmMOD
+    0→F
+    
+    Text(L,0,G,"^",E," mod ",N,"=",T)
+    // Check if correct
+    If T=H
+    Then
+      Text(L,91,"√")
+    Else
+      Text(L,91,"×")
+    End
+    L+6→L
+    
+    // When screen is full wait for continue and begin anew
+    If L+6>62
+    Then
+      Pause 
+      0→L
+      ClrDraw
+    End
+  End
+End
+
