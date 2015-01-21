@@ -5,6 +5,7 @@ AxesOff
 ClrDraw
 
 // Input
+Disp "G^?=H mod (Q+1)"
 Input "Gener G=",G
 Input "G ord Q=",Q
 Input "Eleme H=",H
@@ -47,7 +48,8 @@ End
 0→dim(L₅)
 
 // Do baby steps
-0→R
+Text(0,0,"Baby steps (col left to right)")
+6→R
 0→C
 1→T
 For(J,0,M,1)
@@ -56,8 +58,8 @@ For(J,0,M,1)
   T→L₅(1+dim(L₅))
   
   // Figure out what our next position is
-  (L*4)+C→C
-  If C+L*4+1>94
+  (L*4)+2+C→C
+  If C+L*4+2>94
   Then
     0→C
     R+6→R
@@ -107,19 +109,21 @@ T→Z
 H→Y
 
 // Do giant steps
-0→R
+Text(0,0,"Giant steps (col  left to right)")
+6→R
 0→C
 For(I,0,M,1)
   // Draw number
   Text(R,C,Y)
   
   // Figure out what our next position is
-  (L*4)+C→C
-  If C+L*4+1>94
+  (L*4)+2+C→C
+  If C+L*4+2>94
   Then
     0→C
     R+6→R
   End
+  
   
   // When screen is full wait for continue and begin anew
   If R+6>62
@@ -133,26 +137,23 @@ For(I,0,M,1)
   For(J,1,dim(L₅),1)
     If Y=L₅(J)
     Then
-      // Found a hit so print out INFO
-      // Check if we have two lines, else PAUSE it
-      If R+18>62
-      Then
-        Pause 
-        0→R
-        ClrDraw
-      End
+      // Found a hit, so start solving
+      // Wait for continue and start solving
+      Text(56,91,"►")
+      Pause 
+      ClrDraw
      
       // Fix offset (lists in TI start at 1, while in algorithm start at zero)
       J-1→J
       I*M+J→X
      
       // Output solution
-      Text(R,0,"i*m+j = x")
-      Text(R,94-11*4,"g^x = h mod n")
-      Text(R+6,0,I,"*",M,"+",J,"=",X)
-      Text(R+12,0,G,"^",X," mod ",N,"=",H)
+      Text(0,0,"i*m+j = x")
+      Text(0,94-11*4,"g^x = h mod n")
+      Text(6,0,I,"*",M,"+",J,"=",X)
+      Text(12,0,G,"^",X," mod ",N,"=",H)
       
-      // Check solution for correctness X^A MOD N
+      // Check solution for correctness X^A MOD N (writes to B,T,A)
       666→F
       X→A
       G→X
@@ -161,9 +162,9 @@ For(I,0,M,1)
       
       If T=H
       Then
-        Text(56,91,"√")
+        Text(12,91,"√")
       Else
-        Text(56,91,"×")
+        Text(12,91,"×")
       End
       
       Return

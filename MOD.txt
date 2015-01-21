@@ -1,7 +1,7 @@
 // Modulo
 // Kevin Valk, version 1.0.0
 // Solution to `X^A MOD N` given in T
-// Writes to B,I,T,A
+// Writes to B,T,A
 If F≠666
 Then
   // Setup Graph screen
@@ -17,7 +17,6 @@ End
 A→B
 
 // Main loop
-0→I
 1→T
 While A≠0
   T*X→T
