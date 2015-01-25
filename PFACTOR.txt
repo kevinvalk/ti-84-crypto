@@ -1,0 +1,74 @@
+// Pollard's P factorization
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+// Input
+//Input "Number N  =",N
+//Input "Starting A=",A
+//Input "Constant C=",C
+1007*10*4→N
+1→A
+1→C
+
+// List 4 is TODO list and List 5 is result list
+0→dim(L₄)
+0→dim(L₅)
+A→O
+0→R
+
+// Place N in the TODO list (List 4)
+N→L₄(1+dim(L₄))
+
+While dim(L₄)≠0
+  // Setup
+  O^2+C→A
+  A^2+C→B
+  L₄(dim(L₄))→N
+  1→T
+
+  // Run it
+  While T=1
+    remainder(A^2+C,N)→A
+    remainder(B^2+C,N)→B
+    remainder(B^2+C,N)→B
+    gcd(abs(A-B),N)→T
+  End
+  
+  // If we could not factorize this, then assume it is a factor
+  If N=T
+  Then
+    // Save N in List 5 and remove end from TODO list
+    Text(R,0,N," is irreducible (this algo)")
+    R+6→R
+    N→L₅(1+dim(L₅))
+    dim(L₄)-1→dim(L₄)
+  Else
+    // We have two new factors namely T and N/T add them to the TODO list and remove current N
+    Text(R,0,T,"*",N/T,"=",N)
+    
+    
+    // Check if really correct
+    If T*(N/T)=N
+    Then
+      Text(R,91,"√")
+    Else
+      Text(R,91,"×")
+    End
+    
+    R+6→R
+    
+    // Move to new lists
+    dim(L₄)-1→dim(L₄)
+    T→L₄(1+dim(L₄))
+    N/T→L₄(1+dim(L₄))
+  End
+  
+  If R+6>62
+  Then
+    Pause 
+    0→R
+    ClrDraw
+  End
+End

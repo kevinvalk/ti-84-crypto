@@ -1,0 +1,45 @@
+// Fermat Test
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+// Input
+Disp "Fermat test for"
+Input "Number N=",N
+Input "Static A=",A
+If A<2
+Then
+  Input "Tests# Z=",Z
+Else
+  1→Z
+End
+
+0→R
+For(J,1,Z)
+  randInt(1,N-1)→X
+  
+  // X^(P-1) mod N (uses B,T,A, answer in T)
+  666→F
+  N-1→A
+  prgmMOD
+  0→F
+  
+  // Print
+  Text(R,0,X,"^",N-1," % ",N,"=",T)
+  If T=1
+  Then
+    Text(R,91,"√")
+  Else
+    Text(R,91,"×")
+  End
+  R+6→R
+  
+  // Check if screen is full
+  If R+6>62
+  Then
+    Pause 
+    0→R
+    ClrDraw
+  End
+End

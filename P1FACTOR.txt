@@ -1,0 +1,49 @@
+// Pollard's P-1 factorization
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+// Input
+Input "Mod N   =",N
+Input "B smooth=",B
+Input "Random A=",A
+
+// Find LCM for all numbers ≤ B
+2→K
+For(I,3,B,1)
+  lcm(I,K)→K
+End
+Text(0,0,K,"=LCM(2,… ,",B,")")
+
+// Calculate A^K mod N = T (uses B,T,A, answer in T)
+B→O
+A→P
+666→F
+A→X
+K→A
+prgmMOD
+0→F
+O→B
+P→A
+Text(6,0,T,"=",A,"^",K," mod ",N)
+
+// Get GCD 
+gcd(T-1,N)→D
+Text(12,0,D,"=GCD(",T,"-1,",N,")")
+
+// Check if it is bounded, else show error
+If 1<D
+Then
+  If D<N
+  Then
+    // Correct
+    Text(50,0,"d * (N/d) = N")
+    Text(56,0,D,"*",N/D,"=",N)
+    Stop
+  End
+End
+
+// Error, not in bounds
+Text(50,0,"GCD is not in bounds")
+Text(56,0,"1<",D,"<",N)
