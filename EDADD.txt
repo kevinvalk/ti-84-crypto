@@ -45,10 +45,10 @@ End
 
 // Step two
 // Modulo N for all parts
-N*fPart(U/N)→U
-N*fPart(I/N)→I
-N*fPart(O/N)→O
-N*fPart(P/N)→P
+round(N*fPart(U/N))→U
+round(N*fPart(I/N))→I
+round(N*fPart(O/N))→O
+round(N*fPart(P/N))→P
 While U<0
   U+N→U
 End
@@ -61,11 +61,6 @@ End
 While P<0
   P+N→P
 End
-// Fixing residu that can happen with this approach to modulo
-round(U)→U
-round(I)→I
-round(O)→O
-round(P)→P
 
 // Calculate inverse modulo
 // Calculate step size (inverse g^(-1)) A^-1( writen to A,B,E,R,T,U,X,Q)
@@ -105,5 +100,5 @@ Then
   // Print final point
   Text(50,0,"X=",X)
   Text(56,0,"Y=",Y)
-  Text(53,47,"(",X,",",Y,")")
+  Text(53,21,"(",X,",",Y,")=(",L₁(1),",",L₁(2),")+(",L₂(1),",",L₂(2),")")
 End
