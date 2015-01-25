@@ -1,0 +1,35 @@
+// Edwards curve point order finder
+// Kevin Valk, version 1.0.0
+// Setup Graph screen
+AxesOff
+ClrDraw
+
+Input "Point P=",L₁
+Input "Curve D=",D
+Input "Mod   N=",N
+
+// And run it!
+L₁→L₃
+666→F
+0→S
+2→C
+While L₃(1)≠0 or L₃(2)≠1
+  L₃→L₂
+  prgmEDADD
+  
+  // Print this try
+  Text(S,0,C,"(",L₁(1),",",L₁(2),")=(",L₃(1),",",L₃(2),")")
+  S+6→S
+  C+1→C
+  
+  // Check if screen is full 
+  If S+6>56
+  Then
+    Pause 
+    0→S
+    ClrDraw
+  End
+End
+Text(56,0,"Order is ",C)
+0→F
+
