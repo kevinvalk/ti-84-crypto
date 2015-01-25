@@ -62,10 +62,10 @@ While P<0
   P+N→P
 End
 // Fixing residu that can happen with this approach to modulo
-iPart(U)→U
-iPart(I)→I
-iPart(O)→O
-iPart(P)→P
+round(U)→U
+round(I)→I
+round(O)→O
+round(P)→P
 
 // Calculate inverse modulo
 // Calculate step size (inverse g^(-1)) A^-1( writen to A,B,E,R,T,U,X,Q)
@@ -85,6 +85,8 @@ W→F
 Z→U
 
 // Save result
+remainder(U*J,N)→X
+remainder(O*L,N)→Y
 {X,Y}→L₃
 
 If F≠666
@@ -101,8 +103,6 @@ Then
   End
 
   // Print final point
-  remainder(U*J,N)→X
-  remainder(O*L,N)→Y
   Text(50,0,"X=",X)
   Text(56,0,"Y=",Y)
   Text(53,47,"(",X,",",Y,")")
