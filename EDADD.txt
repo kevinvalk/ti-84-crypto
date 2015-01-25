@@ -1,0 +1,109 @@
+// Edwards curve point addition
+// Kevin Valk, version 1.0.0
+// Calculates point addition of L1 and L2 (X,Y) for curve D over mod N
+// Writes to A,B,E,R,T,U,X,Q,I,Z,O,P,Y
+// Solution in L3
+
+// Input
+If F≠666
+Then
+  // Setup Graph screen
+  AxesOff
+  ClrDraw
+
+  Disp "Points P + Q"
+  Input "P=",L₁
+  Input "Q=",L₂
+  Input "Curve D=",D
+  Input "Mod   N=",N
+End
+
+// X fraction (U/I)
+L₁(1)*L₂(2)+L₂(1)*L₁(2)→U
+1+D*L₁(1)*L₂(1)*L₁(2)*L₂(2)→I
+
+// Y fraction (O/P)
+L₁(2)*L₂(2)-L₁(1)*L₂(1)→O
+1-D*L₁(1)*L₂(1)*L₁(2)*L₂(2)→P
+
+If F≠666
+Then
+  // Print out X coordinate calc
+  Text(0,0,U)
+  Text(6,0,I)
+  Text(0,29,"=",L₁(1),".",L₂(2),"+",L₂(1),".",L₁(2))
+  Text(6,29,"=1+",D,".",L₁(1),".",L₂(1),".",L₁(2),".",L₂(2))
+  Text(3,91,"X")
+
+  // Print out Y coordinate calc
+  Text(12,0,O)
+  Text(18,0,P)
+  Text(12,29,"=",L₁(2),".",L₂(2),"-",L₁(1),".",L₂(1))
+  Text(18,29,"=1-",D,".",L₁(1),".",L₂(1),".",L₁(2),".",L₂(2))
+  Text(15,91,"Y")
+End
+
+// Step two
+// Modulo N for all parts
+N*fPart(U/N)→U
+N*fPart(I/N)→I
+N*fPart(O/N)→O
+N*fPart(P/N)→P
+While U<0
+  U+N→U
+End
+While I<0
+  I+N→I
+End
+While O<0
+  O+N→O
+End
+While P<0
+  P+N→P
+End
+// Fixing residu that can happen with this approach to modulo
+iPart(U)→U
+iPart(I)→I
+iPart(O)→O
+iPart(P)→P
+
+// Calculate inverse modulo
+// Calculate step size (inverse g^(-1)) A^-1( writen to A,B,E,R,T,U,X,Q)
+U→Z
+F→W
+666→F
+// Inverse of I^-1 mod N store in J
+I→A
+prgmINVERSE
+T→J
+//Text(36,0,T)
+// Inverse of P^-1 mod N store in L
+P→A
+prgmINVERSE
+T→L
+W→F
+Z→U
+
+// Save result
+{X,Y}→L₃
+
+If F≠666
+Then
+  // Print info
+  Text(24,0,"X=",U,"/",I," (mod ",N,")")
+  Text(30,0,"Y=",O,"/",P," (mod ",N,")")
+  Text(36,0,"X=",U,".(",I,"^-1 % ",N,"=",J,")")
+  Text(42,0,"X=",O,".(",P,"^-1 % ",N,"=",L,")")
+
+  // Hating on Horizontal because you have to set up axis and shit
+  For(I,0,94)
+    Pxl-On(49,I)
+  End
+
+  // Print final point
+  remainder(U*J,N)→X
+  remainder(O*L,N)→Y
+  Text(50,0,"X=",X)
+  Text(56,0,"Y=",Y)
+  Text(53,47,"(",X,",",Y,")")
+End
