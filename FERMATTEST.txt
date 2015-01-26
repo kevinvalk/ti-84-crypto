@@ -17,7 +17,12 @@ End
 
 0→R
 For(J,1,Z)
-  randInt(1,N-1)→X
+  If A≥2
+  Then
+    A→X
+  Else
+    randInt(1,N-1)→X
+  End
   
   // X^(P-1) mod N (uses B,T,A, answer in T)
   666→F

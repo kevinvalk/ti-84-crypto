@@ -5,7 +5,7 @@ AxesOff
 ClrDraw
 
 // Input
-Input "Mod N   =",N
+Input "Number N=",N
 Input "B smooth=",B
 Input "Random A=",A
 

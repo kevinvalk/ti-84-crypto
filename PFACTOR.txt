@@ -5,12 +5,10 @@ AxesOff
 ClrDraw
 
 // Input
-//Input "Number N  =",N
-//Input "Starting A=",A
-//Input "Constant C=",C
-1007*10*4→N
-1→A
-1→C
+Input "Number N  =",N
+Input "Starting A=",A
+Input "Constant C=",C
+Input "Verbose  V=",V
 
 // List 4 is TODO list and List 5 is result list
 0→dim(L₄)
@@ -22,6 +20,14 @@ A→O
 N→L₄(1+dim(L₄))
 
 While dim(L₄)≠0
+  // Check screen (do not do this at the bottom)
+  If R+6>62
+  Then
+    Pause 
+    0→R
+    ClrDraw
+  End
+
   // Setup
   O^2+C→A
   A^2+C→B
@@ -29,11 +35,86 @@ While dim(L₄)≠0
   1→T
 
   // Run it
+  If V=1
+  Then
+    Text(R,0,"Running for ",N)
+    R+6→R
+    If R+6>62
+    Then
+      Pause 
+      0→R
+      ClrDraw
+    End
+  End
   While T=1
-    remainder(A^2+C,N)→A
-    remainder(B^2+C,N)→B
-    remainder(B^2+C,N)→B
+    //a_1
+    remainder(A^2+C,N)→T
+    If V=1
+    Then
+      Text(R,0," ",T,"=",A,"^2+",C,"%",N)
+      Text(R,87,"a1")
+      R+6→R
+      
+      If R+6>62
+      Then
+        Pause 
+        0→R
+        ClrDraw
+      End
+    End
+    T→A
+    
+    //a_2 (first)
+    remainder(B^2+C,N)→T
+    If V=1
+    Then
+      Text(R,0," ",T,"=",B,"^2+",C,"%",N)
+      Text(R,87,"a2")
+      R+6→R
+      If R+6>62
+      Then
+        Pause 
+        0→R
+        ClrDraw
+      End
+    End
+    T→B
+    
+    //a_2 (second)
+    remainder(B^2+C,N)→T
+    If V=1
+    Then
+      Text(R,0," ",T,"=",B,"^2+",C,"%",N)
+      Text(R,87,"a2")
+      R+6→R
+      If R+6>62
+      Then
+        Pause 
+        0→R
+        ClrDraw
+      End
+    End
+    T→B
+    
+    // GCD (Floyd Cycle detection)
     gcd(abs(A-B),N)→T
+    If V=1
+    Then
+      Text(R,0,"gcd(",abs(A-B),",",N,")=",T)
+      If T=1
+      Then
+        Text(R,91,"↑")
+      Else
+        Text(R,91,"►")
+      End
+      R+6→R
+      If R+6>62
+      Then
+        Pause 
+        0→R
+        ClrDraw
+      End
+    End
   End
   
   // If we could not factorize this, then assume it is a factor
@@ -63,12 +144,5 @@ While dim(L₄)≠0
     dim(L₄)-1→dim(L₄)
     T→L₄(1+dim(L₄))
     N/T→L₄(1+dim(L₄))
-  End
-  
-  If R+6>62
-  Then
-    Pause 
-    0→R
-    ClrDraw
   End
 End
