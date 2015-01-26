@@ -1,7 +1,7 @@
 // Edwards curve point addition
 // Kevin Valk, version 1.0.0
 // Calculates point addition of L1 and L2 (X,Y) for curve D over mod N
-// Writes to A,B,E,R,T,U,X,Q,I,Z,O,P,Y
+// Writes to A,B,E,R,T,U,X,Q,I,Z,O,P,Y,V
 // Solution in L3
 
 // Input
@@ -15,6 +15,7 @@ Then
   Input "P=",L₁
   Input "Q=",L₂
   Input "Curve D=",D
+  Input "Twist A=",A
   Input "Mod   N=",N
 End
 
@@ -23,7 +24,7 @@ L₁(1)*L₂(2)+L₂(1)*L₁(2)→U
 1+D*L₁(1)*L₂(1)*L₁(2)*L₂(2)→I
 
 // Y fraction (O/P)
-L₁(2)*L₂(2)-L₁(1)*L₂(1)→O
+L₁(2)*L₂(2)-A*L₁(1)*L₂(1)→O
 1-D*L₁(1)*L₂(1)*L₁(2)*L₂(2)→P
 
 If F≠666
@@ -38,7 +39,7 @@ Then
   // Print out Y coordinate calc
   Text(12,0,O)
   Text(18,0,P)
-  Text(12,29,"=",L₁(2),".",L₂(2),"-",L₁(1),".",L₂(1))
+  Text(12,29,"=",L₁(2),".",L₂(2),"-",A,".",L₁(1),".",L₂(1))
   Text(18,29,"=1-",D,".",L₁(1),".",L₂(1),".",L₁(2),".",L₂(2))
   Text(15,91,"Y")
 End
@@ -64,6 +65,7 @@ End
 
 // Calculate inverse modulo
 // Calculate step size (inverse g^(-1)) A^-1( writen to A,B,E,R,T,U,X,Q)
+A→V
 U→Z
 F→W
 666→F
@@ -78,6 +80,7 @@ prgmINVERSE
 T→L
 W→F
 Z→U
+V→A
 
 // Save result
 remainder(U*J,N)→X

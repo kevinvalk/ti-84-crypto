@@ -6,21 +6,24 @@ ClrDraw
 
 Input "Point P=",L₁
 Input "Curve D=",D
+Input "Twist A=",A
 Input "Mod   N=",N
 
 // And run it!
 L₁→L₃
 666→F
 0→S
-2→C
+1→C
 While L₃(1)≠0 or L₃(2)≠1
+  C+1→C
+
+  // Add original P to previous answer
   L₃→L₂
   prgmEDADD
   
   // Print this try
   Text(S,0,C,"(",L₁(1),",",L₁(2),")=(",L₃(1),",",L₃(2),")")
   S+6→S
-  C+1→C
   
   // Check if screen is full 
   If S+6>56
